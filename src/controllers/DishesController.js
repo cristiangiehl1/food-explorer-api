@@ -106,19 +106,68 @@ class DishesController {
     }
 
     async delete(request, response) {
+        const { id } = request.params;
+
+        await knex("dishes").where({ id }).delete();
+
+        return response.json();
 
     }
 
-    async update(request, resposne) {
+    async update(request, response) {
+        const { id } = request.params;
+        const { name, price, description, ingredients } = request.body;
 
+        const dishe = await knex("dishes").where({id}).first();
+
+        if(!dishe) {
+            throw new AppError("Esse prato não foi encontrado no menu do restaurante.")
+        }
+
+        
+        if(price) {
+            let priceIsNum = true;           
+
+            for(let i = 0; i < price.length; i++) {                
+                if(price[i] !== '.' && isNaN(parseFloat(price[i]))) {          
+                    priceIsNum = false;
+                    break                    
+                }
+            }            
+            if(!priceIsNum) {
+                throw new AppError("Informa um valor válido para o preço prato")
+            }
+        }
+
+        const priceToNum = parseFloat(price);
+        
+        dishe.name = name ?? dishe.name;
+        dishe.price = priceToNum ?? dishe.price;
+        dishe.description = description ?? dishe.description;  
+                
+        await knex("dishes").update({
+            name: dishe.name,
+            price: dishe.price,
+            description: dishe.description
+        }).where({id})
+
+        
+        if(ingredients) {
+            await knex("ingredients").where({dishe_id: dishe.id}).delete()
+
+            const ingredientsInsert = ingredients.map(ingredient => {
+                return {
+                    dishe_id: dishe.id,
+                    user_id: dishe.user_id,
+                    ingredient
+                }
+            });
+
+            await knex("ingredients").insert(ingredientsInsert);
+        }    
+
+        return response.json();
     }
-
-
-
-
-
-
-
 }
 
 module.exports = DishesController;
