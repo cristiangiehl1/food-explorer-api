@@ -9,6 +9,8 @@ const dishesController = new DishesController();
 
 dishesRouters.post("/:user_id", dishesController.create);
 dishesRouters.get("/:user_id", dishesController.index);
+dishesRouters.delete("/:id", dishesController.delete);
+dishesRouters.put("/:id", dishesController.update);
 dishesRouters.get("/:id", dishesController.show);
 
 module.exports = dishesRouters;

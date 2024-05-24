@@ -3,11 +3,18 @@ const AppError = require("../utils/AppError");
 
 class DishesController {
     async create(request, response) {
-       const { name, description, ingredients } = request.body;
+       const { name, description, price, ingredients } = request.body;
 
        const { user_id } = request.params;
 
+       const priceIsNum = parseFloat(price);
+
+       if (isNaN(priceIsNum)) {
+           throw new AppError("O preço deve ser um número válido.");
+       }
+
        const checkIfUserExists = await knex("users").where({id: user_id}).first();
+       
 
        if(!checkIfUserExists) {
         throw new AppError("Usuário não encontrado.")
@@ -20,9 +27,11 @@ class DishesController {
         throw new AppError("Esse prato já foi registrado no sistema.")
        }
 
+
        const [dishe_id] = await knex("dishes").insert({
         name,
         description,
+        price,
         user_id
        });
 
@@ -83,10 +92,7 @@ class DishesController {
         }
 
         const userIngredients = await knex("ingredients").where({user_id});
-        
-        console.log(dishes);
-        console.log(userIngredients);
-        
+                
         const dishesWithIngredients = dishes.map(dishe => {
             const disheIngredients = userIngredients.filter(ingredient => ingredient.dishe_id === dishe.id) 
 
@@ -97,6 +103,14 @@ class DishesController {
         })
 
         return response.json(dishesWithIngredients);
+    }
+
+    async delete(request, response) {
+
+    }
+
+    async update(request, resposne) {
+
     }
 
 
