@@ -5,28 +5,33 @@ class DishesController {
     async create(request, response) {
        const { name, description, price, ingredients } = request.body;
 
-       const { user_id } = request.params;
-
-       const priceIsNum = parseFloat(price);
-
-       if (isNaN(priceIsNum)) {
-           throw new AppError("O preço deve ser um número válido.");
-       }
+       const user_id  = request.user.id;
 
        const checkIfUserExists = await knex("users").where({id: user_id}).first();
        
-
        if(!checkIfUserExists) {
         throw new AppError("Usuário não encontrado.")
        }
 
        const disheAlredyExist = await knex("dishes").where("name", "like", `%${name}%`);
 
-
        if(disheAlredyExist.length !== 0) {
         throw new AppError("Esse prato já foi registrado no sistema.")
        }
 
+       if(price) {
+            let priceIsNum = true;           
+
+            for(let i = 0; i < price.length; i++) {                
+                if(price[i] !== '.' && isNaN(parseFloat(price[i]))) {          
+                    priceIsNum = false;
+                    break                    
+                }
+            }            
+            if(!priceIsNum) {
+                throw new AppError("Informar um valor válido para o preço prato")
+            }
+        }
 
        const [dishe_id] = await knex("dishes").insert({
         name,
@@ -49,12 +54,17 @@ class DishesController {
     };
 
     async show(request, response) {
-        const { id } = request.params;
+        const { dishe_id } = request.params;
+        const user_id = request.user.id
 
-        const dishe = await knex("dishes").where({id}).first();
+        const dishe = await knex("dishes").where({ id: dishe_id, user_id }).first();
+
+        if(!dishe) {
+            throw new AppError("Você não possui esse prato cadastrado no menu.")
+        }
 
         const ingredients = await knex("ingredients")
-            .where({dishe_id: id})
+            .where({dishe_id: dishe_id})
             .orderBy("ingredient")
 
         return response.json({
@@ -65,7 +75,7 @@ class DishesController {
 
     async index(request, response) {
         const { name, ingredients } = request.query;
-        const { user_id } = request.params;
+        const user_id  = request.user.id;
 
         let dishes;
 
@@ -115,10 +125,11 @@ class DishesController {
     }
 
     async update(request, response) {
-        const { id } = request.params;
+        const { dishe_id } = request.params;
         const { name, price, description, ingredients } = request.body;
+        
 
-        const dishe = await knex("dishes").where({id}).first();
+        const dishe = await knex("dishes").where({ id: dishe_id }).first();
 
         if(!dishe) {
             throw new AppError("Esse prato não foi encontrado no menu do restaurante.")
@@ -149,7 +160,7 @@ class DishesController {
             name: dishe.name,
             price: dishe.price,
             description: dishe.description
-        }).where({id})
+        }).where({ id: dishe_id })
 
         
         if(ingredients) {
