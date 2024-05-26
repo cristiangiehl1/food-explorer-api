@@ -154,7 +154,8 @@ class DishesController {
         
         dishe.name = name ?? dishe.name;
         dishe.price = priceToNum ?? dishe.price;
-        dishe.description = description ?? dishe.description;  
+        dishe.description = description ?? dishe.description; 
+        dishe.image = dishe.image; 
                 
         await knex("dishes").update({
             name: dishe.name,

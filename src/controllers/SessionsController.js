@@ -5,8 +5,6 @@ const { sign } = require("jsonwebtoken")
 
 const { compare } = require("bcryptjs");
 
-
-
 class SessionsController {
     async create(request, response) {
         const { email, password } = request.body;
@@ -25,7 +23,7 @@ class SessionsController {
 
         const { secret, expiresIn } = authConfig.jwt;
 
-        const token = sign({}, secret, {
+        const token = sign({role: user.role}, secret, {
             subject: String(user.id),
             expiresIn
         });

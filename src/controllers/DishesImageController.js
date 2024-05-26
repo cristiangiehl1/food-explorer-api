@@ -29,8 +29,6 @@ class DishesImageController {
             imageExtension += imageFilename[i];
         }
 
-        console.log(imageExtension);
-
         if(imageExtension !== 'png' && imageExtension !== 'jpge' && imageExtension !== 'jpg') {
             throw new AppError("O arquivo de imagem não é válido.");
         }
