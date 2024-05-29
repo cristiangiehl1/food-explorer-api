@@ -3,7 +3,7 @@ exports.up = knex => knex.schema.createTable("ingredients", table => {
     table.text("ingredient").notNullable();
 
     table.integer("dishe_id").references("id").inTable("dishes").onDelete("CASCADE");
-    table.integer("user_id").references("id").inTable("users").onDelete("CASCADE");
+    table.integer("user_id").references("id").inTable("users");
 
     table.timestamp("created_at").default(knex.fn.now()); 
 }); 
