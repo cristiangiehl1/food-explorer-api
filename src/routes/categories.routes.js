@@ -7,8 +7,11 @@ const categoiresRouters = Router();
 
 const categoriesController = new CategoriesController();
 
+categoiresRouters.use(ensureAuthenticated);
 
-categoiresRouters.get("/", ensureAuthenticated, categoriesController.index);
+categoiresRouters.get("/", categoriesController.index);
+categoiresRouters.get("/:dishe_id", categoriesController.show);
+categoiresRouters.put("/:dishe_id", categoriesController.update);
 
 
 module.exports = categoiresRouters;

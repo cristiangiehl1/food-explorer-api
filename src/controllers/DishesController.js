@@ -67,11 +67,10 @@ class DishesController {
     };
 
     async show(request, response) {
-        const { dishe_id } = request.params;
-        const user_id = request.user.id
-
-        const dishe = await knex("dishes").where({ id: dishe_id, user_id }).first();
-
+        const { dishe_id } = request.params;      
+ 
+        const dishe = await knex("dishes").where({ id: dishe_id }).first();
+    
         if(!dishe) {
             throw new AppError("Você não possui esse prato cadastrado no menu.")
         }

@@ -14,7 +14,7 @@ const ingredientsController = new IngredientsController();
 
 ingredientsRouters.use(ensureAuthenticated);
 
-ingredientsRouters.get("/", ensureAuthenticated, verifyUserAuthorization(["admin"]), ingredientsController.index);
+ingredientsRouters.get("/", ingredientsController.index);
 
 
 module.exports = ingredientsRouters;
