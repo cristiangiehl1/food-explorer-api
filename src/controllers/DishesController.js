@@ -3,7 +3,7 @@ const AppError = require("../utils/AppError");
 
 class DishesController {
     async create(request, response) {
-       const { name, description, price, ingredients, categories } = request.body;
+       const { name, description, price, ingredients, categories, most_ordered } = request.body;
 
        const user_id  = request.user.id;
 
@@ -23,22 +23,25 @@ class DishesController {
             let priceIsNum = true;           
 
             for(let i = 0; i < price.length; i++) {                
-                if(price[i] !== '.' && isNaN(parseFloat(price[i]))) {          
+                if(price[i] !== '.' && price[i] !== ',' && isNaN(parseFloat(price[i]))) {          
                     priceIsNum = false;
                     break                    
                 }
             }            
             if(!priceIsNum) {
-                throw new AppError("Informar um valor válido para o preço prato")
+                throw new AppError("Informar um valor válido para o preço do prato")
             }
         }
 
-       const [dishe_id] = await knex("dishes").insert({
-        name,
-        description,
-        price,
-        user_id
-       });
+        const priceFloat = parseFloat(price)
+        const priceFormated = priceFloat.toFixed(2).replace(',', '.');
+
+        const [dishe_id] = await knex("dishes").insert({
+            name,
+            description,
+            price: priceFormated,
+            user_id
+        });
 
        const ingredientsInsert = ingredients.map(ingredient => {
         return {
@@ -50,17 +53,17 @@ class DishesController {
 
        await knex("ingredients").insert(ingredientsInsert);
 
-       const categoriesInsert = categories.map(category => {
-        return {
+       const categoriesInsert = {
             dishe_id,
             user_id,
-            type: category
-        }
-       });
+            type: categories,
+            most_ordered: most_ordered
+       }
+
 
        await knex("categories").insert(categoriesInsert);
 
-       return response.status(201).json();
+       return response.status(201).json(dishe_id);
     };
 
     async show(request, response) {
@@ -143,7 +146,7 @@ class DishesController {
 
     async update(request, response) {
         const { dishe_id } = request.params;
-        const { name, price, description, ingredients, categories } = request.body;
+        const { name, price, description, ingredients, categories, most_ordered } = request.body;
         
 
         const dishe = await knex("dishes").where({ id: dishe_id }).first();
@@ -168,9 +171,11 @@ class DishesController {
         }
 
         const priceToNum = parseFloat(price);
-        
+        const priceFormated = priceToNum.toFixed(2);
+        console.log(priceFormated);
+
         dishe.name = name ?? dishe.name;
-        dishe.price = priceToNum ?? dishe.price;
+        dishe.price = priceFormated ?? dishe.price;
         dishe.description = description ?? dishe.description; 
         dishe.image = dishe.image; 
                 
@@ -182,7 +187,7 @@ class DishesController {
 
         
         if(ingredients) {
-            await knex("ingredients").where({dishe_id: dishe.id}).delete()
+            await knex("ingredients").where({dishe_id: dishe.id}).delete();
 
             const ingredientsInsert = ingredients.map(ingredient => {
                 return {
@@ -194,6 +199,19 @@ class DishesController {
 
             await knex("ingredients").insert(ingredientsInsert);
         }    
+
+        if(categories) {
+            const fetchCategory = await knex("categories").where({dishe_id: dishe.id}).first();
+
+            await knex("categories").update({
+                dishe_id: dishe.id,
+                user_id: dishe.user_id,
+                type: categories,
+                favorite: fetchCategory.favorite,
+                most_ordered: most_ordered ?? fetchCategory.most_ordered
+            }).where({ id: fetchCategory.id })             
+        }
+
 
         return response.json();
     }

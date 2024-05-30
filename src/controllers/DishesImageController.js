@@ -25,11 +25,15 @@ class DishesImageController {
         const lasDotIndex = imageFilename.lastIndexOf(".");
         let imageExtension = '';
 
+        console.log("Esse é o seu arquivo de imagem no backend => " + imageFilename);
+
         for (let i = lasDotIndex + 1; i < imageFilename.length; i++) {
             imageExtension += imageFilename[i];
         }
 
-        if(imageExtension !== 'png' && imageExtension !== 'jpge' && imageExtension !== 'jpg') {
+        console.log("Essa é a extensão do seu arquivo no backend =>" + imageExtension);
+
+        if(imageExtension !== 'png' && imageExtension !== 'jpeg' && imageExtension !== 'jpg') {
             throw new AppError("O arquivo de imagem não é válido.");
         }
 
@@ -39,7 +43,6 @@ class DishesImageController {
 
         const filename = await diskStorage.dishesSaveFile(imageFilename);
 
-        console.log(filename);
 
         dishe.image = filename;
 
