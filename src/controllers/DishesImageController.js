@@ -43,7 +43,6 @@ class DishesImageController {
 
         const filename = await diskStorage.dishesSaveFile(imageFilename);
 
-
         dishe.image = filename;
 
         await knex("dishes").update(dishe).where({ id: dishe_id });

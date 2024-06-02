@@ -57,7 +57,7 @@ class DishesController {
             dishe_id,
             user_id,
             type: categories,
-            most_ordered: most_ordered
+            most_ordered: most_ordered ?? false
        }
 
 

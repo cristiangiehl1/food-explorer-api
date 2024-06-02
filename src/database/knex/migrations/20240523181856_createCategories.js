@@ -3,7 +3,6 @@ exports.up = knex => knex.schema.createTable("categories", table => {
     table
         .enum("type", ["entrada", "refeição", "sobremesa", "bebida"], {useNative: true, enumName: "categories"})
         .notNullable();
-    table.boolean("favorite").defaultTo(false);  
     table.boolean("most_ordered").defaultTo(false);  
 
     table.integer("dishe_id").references("id").inTable("dishes").onDelete("CASCADE");
