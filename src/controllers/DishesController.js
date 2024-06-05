@@ -118,6 +118,8 @@ class DishesController {
                 .orderBy("name");
         }
 
+        console.log(dishes);
+
         // const userIngredients = await knex("ingredients").where({user_id});
         const userIngredients = await knex("ingredients");
 

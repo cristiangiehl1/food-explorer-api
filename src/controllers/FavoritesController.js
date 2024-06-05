@@ -29,32 +29,34 @@ class FavoritesController {
     async update(request, response) {
         const user_id  = request.user.id
         const { dishe_id } = request.params;
-        const { favorite } = request.body; 
+        const { favorite } = request.body;     
         
-
         const favoriteExists = await knex("favorites").where({ user_id, dishe_id }).first();
 
         if(!favoriteExists) {
+            console.log("entrou no if");
             throw new AppError("Esse prato não está cadastrado nos favoritos.");
         }
 
-        if(favorite !== 1 && favorite !== 0 && favorite !== true && favorite !== false) {
+
+        if (favorite !== 1 && favorite !== 0 && favorite !== true && favorite !== false) {
+            console.log("entrou no if do favorite");
             throw new AppError("O valor de favorite deve ser booleano.")
         }
-        
 
-        await knex("favorites").update({
+        const favoriteUpdated = await knex("favorites").update({
             favorite: favorite
         }).where({user_id, dishe_id });
 
+        console.log(favoriteUpdated);
 
-        return response.json()
+        return response.json(favoriteUpdated)
     }
 
     async index(request, response) {
         const user_id = request.user.id;
 
-        const userFavorites = await knex("favorites").where({ user_id });
+        const userFavorites = await knex("favorites").where({ user_id });    
 
         return response.json(userFavorites)
     }
