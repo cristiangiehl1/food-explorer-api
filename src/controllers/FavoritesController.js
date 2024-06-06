@@ -34,21 +34,17 @@ class FavoritesController {
         const favoriteExists = await knex("favorites").where({ user_id, dishe_id }).first();
 
         if(!favoriteExists) {
-            console.log("entrou no if");
             throw new AppError("Esse prato não está cadastrado nos favoritos.");
         }
 
 
         if (favorite !== 1 && favorite !== 0 && favorite !== true && favorite !== false) {
-            console.log("entrou no if do favorite");
             throw new AppError("O valor de favorite deve ser booleano.")
         }
 
         const favoriteUpdated = await knex("favorites").update({
             favorite: favorite
         }).where({user_id, dishe_id });
-
-        console.log(favoriteUpdated);
 
         return response.json(favoriteUpdated)
     }

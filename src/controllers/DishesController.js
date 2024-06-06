@@ -33,13 +33,14 @@ class DishesController {
             }
         }
 
-        const priceFloat = parseFloat(price)
-        const priceFormated = priceFloat.toFixed(2).replace(',', '.');
+        const priceReplace = price.replace(',', '.');
+       
+        const priceFloat = parseFloat(priceReplace).toFixed(2)
 
         const [dishe_id] = await knex("dishes").insert({
             name,
             description,
-            price: priceFormated,
+            price: priceFloat,
             user_id
         });
 
@@ -118,8 +119,6 @@ class DishesController {
                 .orderBy("name");
         }
 
-        console.log(dishes);
-
         // const userIngredients = await knex("ingredients").where({user_id});
         const userIngredients = await knex("ingredients");
 
@@ -156,27 +155,31 @@ class DishesController {
             throw new AppError("Esse prato não foi encontrado no menu do restaurante.")
         }
 
+        let priceFformated;
         
         if(price) {
-            let priceIsNum = true;           
-
-            for(let i = 0; i < price.length; i++) {                
-                if(price[i] !== '.' && isNaN(parseFloat(price[i]))) {          
+            let priceIsNum = true;       
+               
+            for (let i = 0; i < price.length; i++) {
+                if ((price[i] === '.' || price[i] === ',') && isNaN(parseFloat(price))) {
                     priceIsNum = false;
-                    break                    
+                    break;
                 }
-            }            
+            }         
             if(!priceIsNum) {
                 throw new AppError("Informa um valor válido para o preço prato")
             }
+               
+
+            if (price.toString().indexOf(",") !== -1) {                
+                priceFformated = price.toString().replace(',', '.');
+            }
+
+            priceFformated = parseFloat(price).toFixed(2)
         }
 
-        const priceToNum = parseFloat(price);
-        const priceFormated = priceToNum.toFixed(2);
-        console.log(priceFormated);
-
         dishe.name = name ?? dishe.name;
-        dishe.price = priceFormated ?? dishe.price;
+        dishe.price = priceFformated ?? dishe.price;
         dishe.description = description ?? dishe.description; 
         dishe.image = dishe.image; 
                 
