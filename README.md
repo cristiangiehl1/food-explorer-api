@@ -3,7 +3,7 @@
 <p align="center">
   <a href="#-controllers">Controllers</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-libraries">Libraries</a>&nbsp;&nbsp;&nbsp;
+  <a href="#-libraries">Libraries</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-libraries">Deploy</a>&nbsp;&nbsp;&nbsp;
 </p>
 
