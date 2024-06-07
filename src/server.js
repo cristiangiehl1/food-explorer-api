@@ -16,18 +16,17 @@ database();
 const app = express();
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Origin', 'https://food-explorer-web.vercel.app/');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
 });
 
-
-
 app.use(cors({
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    origin: ["https://food-explorer-web.vercel.app/"],
     credentials: true,
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/files/dishes", express.static(uploadConfig.DISHES_UPLOADS_FOLDER));
