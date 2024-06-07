@@ -13,7 +13,8 @@
 </p>
 
 <h2 align="center"> 🎮 Controllers and functionalities </h2>
-### Categories
+
+### Categories:
 - **GET /index:** Show all dishes with categories.
 - **GET /show:** Show all categories of a specific dish.
 - **PUT /update:** Update the categories of a specific dish.
