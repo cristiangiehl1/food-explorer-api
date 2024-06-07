@@ -4,6 +4,7 @@
   <a href="#-controllers">Controllers</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-libraries">Libraries</a>&nbsp;&nbsp;&nbsp;
+  <a href="#-libraries">Deploy</a>&nbsp;&nbsp;&nbsp;
 </p>
 
 <h2 align="center"> About </h2>
@@ -79,3 +80,9 @@ This project was developed using the following libraries:
 - dotenv
 - coookie-parser
 - bcryptjs
+
+## ☁️ Deploy
+[Dashboard do Render](https://dashboard.render.com/web/srv-cphhs1m3e1ms73d8pgc0/logs?t=app)
+[Food Explorer API](https://food-explorer-api-1-7b81.onrender.com)
+
+
