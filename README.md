@@ -1,4 +1,4 @@
-<h1 align="center"> Food Express API </h1>
+<h1 align="center"> Food Express API 🍽️</h1>
 <img alt="imagem da capa do frontend" src="./github/theme.png">
 
 <h2 align="center"> About </h2>
@@ -6,18 +6,6 @@
   The Food Express API is the final project of the Rocketseat Explorer course. 
   The API aims to manage the requests from the web frontend with our database. 
 </p>
-
-<h2 align="center">  </h2>
-<p align="left">
- 
-</p>
-<h2 align="center"> Technologies </h2>
-<p align="left">
-
-</p>
-
-
-
 
 <p align="center">
   <a href="#-controllers">Controllers</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
