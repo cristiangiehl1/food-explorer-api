@@ -61,7 +61,7 @@ class HistoricOrdersController {
         const user_id = request.user.id
         const user_role = request.user.role
 
-        let historic
+        let historic;
 
         if(user_role === "customer") {
             historic = await knex("historic").where({ user_id }).orderBy("id", "desc");
