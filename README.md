@@ -5,6 +5,7 @@
   The Food Express API is the final project of the Rocketseat Explorer course. 
   The API aims to manage the requests from the web frontend with our database. 
 </p>
+ <img alt="imagem da capa do frontend" src="./github/theme.png">
 <h2 align="center">  </h2>
 <p align="left">
  
@@ -14,7 +15,7 @@
 
 </p>
 
-  <img alt="imagem da capa do frontend" src="./github/theme.png">
+
 
 
 <p align="center">
