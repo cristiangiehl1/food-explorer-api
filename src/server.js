@@ -16,14 +16,14 @@ database();
 const app = express();
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://food-explorer-web.vercel.app/');
+    res.header('Access-Control-Allow-Origin', 'https://food-explorer-web.vercel.app');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
 });
 
 app.use(cors({
-    origin: ["https://food-explorer-web.vercel.app/"],
+    origin: ["https://food-explorer-web.vercel.app"],
     credentials: true,
 }));
 
