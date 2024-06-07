@@ -14,7 +14,7 @@
 
 </p>
 
-  <img alt="imagem da capa do frontend" src="./frontend/src/github/theme.png">
+  <img alt="imagem da capa do frontend" src="./github/theme.png">
 
 
 <p align="center">
